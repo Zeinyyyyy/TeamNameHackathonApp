@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "642053250348",
+    "project_id": "teacherevaluationsystem-e74b7",
+    "storage_bucket": "teacherevaluationsystem-e74b7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642053250348:android:2ccd220a961841d4172089",
+        "android_client_info": {
+          "package_name": "com.example.evalpromax"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBNvxWgl8_34P4B6qOH2GRmIbeuzv7SNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642053250348:android:d324e6741d54c5c1172089",
+        "android_client_info": {
+          "package_name": "com.example.teacher_eval_pro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBNvxWgl8_34P4B6qOH2GRmIbeuzv7SNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
