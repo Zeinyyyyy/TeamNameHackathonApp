@@ -47,7 +47,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA6-OdpQitxsOuIjK_hWsV2MwjFIa0wU_U',
+    apiKey: 'YOUR_WEB_API_KEY',
     appId: '1:642053250348:web:2699c1aafb71e01e172089',
     messagingSenderId: '642053250348',
     projectId: 'teacherevaluationsystem-e74b7',
@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDBNvxWgl8_34P4B6qOH2GRmIbeuzv7SNo',
+    apiKey: 'YOUR_ANDROID_API_KEY',
     appId: '1:642053250348:android:d324e6741d54c5c1172089',
     messagingSenderId: '642053250348',
     projectId: 'teacherevaluationsystem-e74b7',
@@ -65,7 +65,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDOq8LzesNfkcn6_9Lnp35JH-7ajdTVrb4',
+    apiKey: 'YOUR_IOS_API_KEY',
     appId: '1:642053250348:ios:2545f6ea90430a7b172089',
     messagingSenderId: '642053250348',
     projectId: 'teacherevaluationsystem-e74b7',
