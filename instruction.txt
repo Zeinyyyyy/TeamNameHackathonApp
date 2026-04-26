@@ -1,0 +1,29 @@
+Teacher Evaluation Pro - Instruction Manual
+
+1. Overview
+   Teacher Evaluation Pro is a comprehensive system designed to track and analyze teacher performance.
+   It supports multiple user roles: Students, Program Heads, Deans, and Admins.
+
+2. Setup Instructions
+   a. Install Flutter SDK.
+   b. Clone the repository.
+   c. Run 'flutter pub get'.
+   d. Setup Firebase:
+      - Create a new Firebase project.
+      - Enable Authentication (Email/Password).
+      - Enable Cloud Firestore.
+      - Add Android/iOS/Web apps and replace the configuration in 'lib/firebase_options.dart'.
+   e. Run the app using 'flutter run'.
+
+3. User Roles & Permissions
+   - Student: Evaluates teachers (50% weight).
+   - Program Head: Manages instructors and sections, evaluates teachers (30% weight).
+   - Dean: Views analytics, audit logs, and AI insights (20% weight).
+   - Admin: Manages users, rooms, and system settings.
+
+4. Features
+   - Real-time Evaluation Tracking.
+   - Automated Weighted Scoring.
+   - AI-Powered Insights (Dean Dashboard).
+   - System Audit Trail (CSV Export available).
+   - Responsive UI for Mobile and Desktop.
