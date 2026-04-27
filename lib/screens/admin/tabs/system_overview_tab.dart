@@ -166,7 +166,7 @@ class _AdminOverviewTabState extends State<AdminOverviewTab> {
             child: Row(
               children: [
                 _buildModernKPI("ENROLLED STUDENTS", FirebaseFirestore.instance.collection('users').where('role', whereIn: ['Student', 'STUDENT']).snapshots(), Colors.blue),
-                _buildModernKPI("FACULTY MEMBERS", FirebaseFirestore.instance.collection('users').where('role', whereIn: ['Faculty', 'FACULTY']).snapshots(), Colors.orange),
+                _buildModernKPI("FACULTY MEMBERS", FirebaseFirestore.instance.collection('teachers').snapshots(), Colors.orange, countUniqueNames: true), // 🟢 Count unique names only
                 _buildModernKPI("PROGRAM HEADS", FirebaseFirestore.instance.collection('users').where('role', whereIn: ['Program Head', 'PROGRAM HEAD']).snapshots(), Colors.purple),
                 _buildModernKPI("DEANS", FirebaseFirestore.instance.collection('users').where('role', whereIn: ['Dean', 'DEAN']).snapshots(), GrcColors.maroon),
                 _buildModernKPI("SUBMITTED EVALS", FirebaseFirestore.instance.collection('evaluations').snapshots(), Colors.green),
@@ -233,7 +233,7 @@ class _AdminOverviewTabState extends State<AdminOverviewTab> {
   }
 
   // --- KPI WIDGET ---
-  Widget _buildModernKPI(String label, Stream<QuerySnapshot> stream, Color color) {
+  Widget _buildModernKPI(String label, Stream<QuerySnapshot> stream, Color color, {bool countUniqueNames = false}) {
     return Container(
       width: 220,
       margin: const EdgeInsets.only(right: 16),
@@ -251,7 +251,19 @@ class _AdminOverviewTabState extends State<AdminOverviewTab> {
           StreamBuilder<QuerySnapshot>(
             stream: stream,
             builder: (context, snapshot) {
-              String count = snapshot.hasData ? snapshot.data!.docs.length.toString() : "...";
+              String count = "...";
+              if (snapshot.hasData) {
+                if (countUniqueNames) {
+                  // Group by name to get unique instructors
+                  final Set<String> uniqueNames = snapshot.data!.docs
+                      .map((doc) => (doc.data() as Map<String, dynamic>)['name'].toString().toUpperCase())
+                      .where((name) => name.isNotEmpty)
+                      .toSet();
+                  count = uniqueNames.length.toString();
+                } else {
+                  count = snapshot.data!.docs.length.toString();
+                }
+              }
               return Text(count, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w300, color: GrcColors.textDark));
             },
           ),

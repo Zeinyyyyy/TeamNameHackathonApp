@@ -1,0 +1,61 @@
+StudentID,FullName,SubjectCode,SubjectTitle,Section,Room
+2024-0001,Juan Dela Cruz,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0001,Juan Dela Cruz,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0001,Juan Dela Cruz,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0001,Juan Dela Cruz,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0001,Juan Dela Cruz,IT105,Networking 1,BSIT - 101,Room 305
+2024-0001,Juan Dela Cruz,IT106,Database Management,BSIT - 101,Room 306
+2024-0002,Maria Clara,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0002,Maria Clara,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0002,Maria Clara,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0002,Maria Clara,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0002,Maria Clara,IT105,Networking 1,BSIT - 101,Room 305
+2024-0002,Maria Clara,IT106,Database Management,BSIT - 101,Room 306
+2024-0003,Crisostomo Ibarra,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0003,Crisostomo Ibarra,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0003,Crisostomo Ibarra,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0003,Crisostomo Ibarra,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0003,Crisostomo Ibarra,IT105,Networking 1,BSIT - 101,Room 305
+2024-0003,Crisostomo Ibarra,IT106,Database Management,BSIT - 101,Room 306
+2024-0004,Simoun Reyes,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0004,Simoun Reyes,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0004,Simoun Reyes,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0004,Simoun Reyes,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0004,Simoun Reyes,IT105,Networking 1,BSIT - 101,Room 305
+2024-0004,Simoun Reyes,IT106,Database Management,BSIT - 101,Room 306
+2024-0005,Elias Santos,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0005,Elias Santos,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0005,Elias Santos,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0005,Elias Santos,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0005,Elias Santos,IT105,Networking 1,BSIT - 101,Room 305
+2024-0005,Elias Santos,IT106,Database Management,BSIT - 101,Room 306
+2024-0006,Sisa Garcia,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0006,Sisa Garcia,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0006,Sisa Garcia,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0006,Sisa Garcia,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0006,Sisa Garcia,IT105,Networking 1,BSIT - 101,Room 305
+2024-0006,Sisa Garcia,IT106,Database Management,BSIT - 101,Room 306
+2024-0007,Basilio Cruz,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0007,Basilio Cruz,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0007,Basilio Cruz,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0007,Basilio Cruz,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0007,Basilio Cruz,IT105,Networking 1,BSIT - 101,Room 305
+2024-0007,Basilio Cruz,IT106,Database Management,BSIT - 101,Room 306
+2024-0008,Jose Rizal,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0008,Jose Rizal,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0008,Jose Rizal,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0008,Jose Rizal,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0008,Jose Rizal,IT105,Networking 1,BSIT - 101,Room 305
+2024-0008,Jose Rizal,IT106,Database Management,BSIT - 101,Room 306
+2024-0009,Andres Bonifacio,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0009,Andres Bonifacio,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0009,Andres Bonifacio,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0009,Andres Bonifacio,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0009,Andres Bonifacio,IT105,Networking 1,BSIT - 101,Room 305
+2024-0009,Andres Bonifacio,IT106,Database Management,BSIT - 101,Room 306
+2024-0010,Emilio Aguinaldo,IT101,Introduction to IT,BSIT - 101,Room 301
+2024-0010,Emilio Aguinaldo,IT102,Computer Programming 1,BSIT - 101,Room 302
+2024-0010,Emilio Aguinaldo,IT103,Discrete Mathematics,BSIT - 101,Room 303
+2024-0010,Emilio Aguinaldo,IT104,Human Computer Interaction,BSIT - 101,Room 304
+2024-0010,Emilio Aguinaldo,IT105,Networking 1,BSIT - 101,Room 305
+2024-0010,Emilio Aguinaldo,IT106,Database Management,BSIT - 101,Room 306

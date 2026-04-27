@@ -114,13 +114,39 @@ class _AddInstructorTabState extends State<AddInstructorTab> {
       );
 
       if (result != null && result.files.single.bytes != null) {
-        final csvString = utf8.decode(result.files.single.bytes!);
-        List<List<dynamic>> rows = const CsvToListConverter().convert(csvString);
+        final csvString = utf8.decode(result.files.single.bytes!).trim();
+        
+        // Robust Parsing
+        List<List<dynamic>> rows;
+        try {
+          rows = const CsvToListConverter().convert(csvString);
+        } catch (e) {
+          throw "Failed to parse CSV: $e";
+        }
 
-        if (rows.isEmpty) return;
+        if (rows.length <= 1) {
+           // Fallback for line endings
+           if (csvString.contains('\n')) {
+              rows = const CsvToListConverter(eol: '\n').convert(csvString);
+           } else if (csvString.contains('\r')) {
+              rows = const CsvToListConverter(eol: '\r').convert(csvString);
+           }
+        }
+
+        if (rows.length <= 1) {
+          if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Error: No data rows found in CSV."), backgroundColor: Colors.orange));
+          return;
+        }
 
         var existingSnap = await FirebaseFirestore.instance.collection('teachers').get();
-        Set<String> existingRecords = existingSnap.docs.map((d) => "${d['name']}_${d['subject']}").toSet();
+        // Use a consistent key for duplicate checking: Name_Subject_SubjectID
+        Set<String> existingRecords = existingSnap.docs.map((d) {
+          String n = (d['name'] ?? '').toString().toUpperCase();
+          String s = (d['subject'] ?? '').toString().toUpperCase();
+          String sid = (d['subjectId'] ?? '').toString().toUpperCase();
+          return "${n}_${s}_${sid}";
+        }).toSet();
+        
         Set<String> batchRecords = {};
 
         int addedCount = 0;

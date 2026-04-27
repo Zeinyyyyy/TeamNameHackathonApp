@@ -1,0 +1,61 @@
+StudentID,FullName,SubjectCode,SubjectTitle,Section,Room
+2026-03-001,John Doe,IT101,Introduction to IT,BSIT 301,RM101
+2026-03-001,John Doe,CS102,Data Structures,BSIT 301,RM102
+2026-03-001,John Doe,BSBA103,Business Management,BSIT 301,RM103
+2026-03-001,John Doe,MATH104,Discrete Mathematics,BSIT 301,RM104
+2026-03-001,John Doe,GE105,Ethics,BSIT 301,RM105
+2026-03-001,John Doe,PE106,Physical Education,BSIT 301,RM106
+2026-03-002,Jane Smith,IT101,Introduction to IT,BSIT 301,RM101
+2026-03-002,Jane Smith,CS102,Data Structures,BSIT 301,RM102
+2026-03-002,Jane Smith,BSBA103,Business Management,BSIT 301,RM103
+2026-03-002,Jane Smith,MATH104,Discrete Mathematics,BSIT 301,RM104
+2026-03-002,Jane Smith,GE105,Ethics,BSIT 301,RM105
+2026-03-002,Jane Smith,PE106,Physical Education,BSIT 301,RM106
+2026-03-003,Michael Chen,IT101,Introduction to IT,BSIT 302,RM101
+2026-03-003,Michael Chen,CS102,Data Structures,BSIT 302,RM102
+2026-03-003,Michael Chen,BSBA103,Business Management,BSIT 302,RM103
+2026-03-003,Michael Chen,MATH104,Discrete Mathematics,BSIT 302,RM104
+2026-03-003,Michael Chen,GE105,Ethics,BSIT 302,RM105
+2026-03-003,Michael Chen,PE106,Physical Education,BSIT 302,RM106
+2026-03-004,Sarah Johnson,IT101,Introduction to IT,BSIT 302,RM101
+2026-03-004,Sarah Johnson,CS102,Data Structures,BSIT 302,RM102
+2026-03-004,Sarah Johnson,BSBA103,Business Management,BSIT 302,RM103
+2026-03-004,Sarah Johnson,MATH104,Discrete Mathematics,BSIT 302,RM104
+2026-03-004,Sarah Johnson,GE105,Ethics,BSIT 302,RM105
+2026-03-004,Sarah Johnson,PE106,Physical Education,BSIT 302,RM106
+2026-03-005,Robert Brown,IT101,Introduction to IT,BSIT 303,RM101
+2026-03-005,Robert Brown,CS102,Data Structures,BSIT 303,RM102
+2026-03-005,Robert Brown,BSBA103,Business Management,BSIT 303,RM103
+2026-03-005,Robert Brown,MATH104,Discrete Mathematics,BSIT 303,RM104
+2026-03-005,Robert Brown,GE105,Ethics,BSIT 303,RM105
+2026-03-005,Robert Brown,PE106,Physical Education,BSIT 303,RM106
+2026-03-006,Emily Davis,IT101,Introduction to IT,BSIT 303,RM101
+2026-03-006,Emily Davis,CS102,Data Structures,BSIT 303,RM102
+2026-03-006,Emily Davis,BSBA103,Business Management,BSIT 303,RM103
+2026-03-006,Emily Davis,MATH104,Discrete Mathematics,BSIT 303,RM104
+2026-03-006,Emily Davis,GE105,Ethics,BSIT 303,RM105
+2026-03-006,Emily Davis,PE106,Physical Education,BSIT 303,RM106
+2026-03-007,William Wilson,IT101,Introduction to IT,BSIT 304,RM101
+2026-03-007,William Wilson,CS102,Data Structures,BSIT 304,RM102
+2026-03-007,William Wilson,BSBA103,Business Management,BSIT 304,RM103
+2026-03-007,William Wilson,MATH104,Discrete Mathematics,BSIT 304,RM104
+2026-03-007,William Wilson,GE105,Ethics,BSIT 304,RM105
+2026-03-007,William Wilson,PE106,Physical Education,BSIT 304,RM106
+2026-03-008,Olivia Taylor,IT101,Introduction to IT,BSIT 304,RM101
+2026-03-008,Olivia Taylor,CS102,Data Structures,BSIT 304,RM102
+2026-03-008,Olivia Taylor,BSBA103,Business Management,BSIT 304,RM103
+2026-03-008,Olivia Taylor,MATH104,Discrete Mathematics,BSIT 304,RM104
+2026-03-008,Olivia Taylor,GE105,Ethics,BSIT 304,RM105
+2026-03-008,Olivia Taylor,PE106,Physical Education,BSIT 304,RM106
+2026-03-009,James Martinez,IT101,Introduction to IT,BSIT 305,RM101
+2026-03-009,James Martinez,CS102,Data Structures,BSIT 305,RM102
+2026-03-009,James Martinez,BSBA103,Business Management,BSIT 305,RM103
+2026-03-009,James Martinez,MATH104,Discrete Mathematics,BSIT 305,RM104
+2026-03-009,James Martinez,GE105,Ethics,BSIT 305,RM105
+2026-03-009,James Martinez,PE106,Physical Education,BSIT 305,RM106
+2026-03-010,Sophia Garcia,IT101,Introduction to IT,BSIT 305,RM101
+2026-03-010,Sophia Garcia,CS102,Data Structures,BSIT 305,RM102
+2026-03-010,Sophia Garcia,BSBA103,Business Management,BSIT 305,RM103
+2026-03-010,Sophia Garcia,MATH104,Discrete Mathematics,BSIT 305,RM104
+2026-03-010,Sophia Garcia,GE105,Ethics,BSIT 305,RM105
+2026-03-010,Sophia Garcia,PE106,Physical Education,BSIT 305,RM106

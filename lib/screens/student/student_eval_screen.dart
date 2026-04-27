@@ -216,11 +216,17 @@ class _TeacherListScreenState extends State<TeacherListScreen> {
         }
 
         List<String> allTeacherIds = [];
+        Map<String, String> teacherToSection = {};
         Timestamp? deployedAt;
         Timestamp? deadlineTs;
+
         for (var doc in snapshot.data!.docs) {
           final data = doc.data() as Map<String, dynamic>;
-          allTeacherIds.addAll((data['teacherIds'] ?? []).map<String>((e) => e.toString()));
+          final List<String> tIds = (data['teacherIds'] ?? []).map<String>((e) => e.toString()).toList();
+          allTeacherIds.addAll(tIds);
+          for (var id in tIds) {
+            teacherToSection[id] = doc.id; // Map each teacher to the section ID they were found in
+          }
           deployedAt ??= data['deployedAt'] as Timestamp?;
           deadlineTs ??= data['deadline'] as Timestamp?;
         }
@@ -260,9 +266,9 @@ class _TeacherListScreenState extends State<TeacherListScreen> {
                 final completed = assigned.where((i) =>  evaluatedIds.contains(i.id)).toList();
 
                 if (_selectedIndex == 0) {
-                  return _buildPendingTab(context, pending, _enrolledSubjects, _targetSections, deployedAt, deadlineTs);
+                  return _buildPendingTab(context, pending, _enrolledSubjects, teacherToSection, deployedAt, deadlineTs);
                 }
-                return _buildHistoryTab(context, completed, evalSnap.data!.docs);
+                return _buildHistoryTab(context, completed, evalSnap.data!.docs, teacherToSection);
               },
             );
           },
@@ -273,7 +279,7 @@ class _TeacherListScreenState extends State<TeacherListScreen> {
 
   // ── pending tab ─────────────────────────────────────────────────────────
   Widget _buildPendingTab(BuildContext context, List<QueryDocumentSnapshot> pendingInstructors,
-      List<dynamic> enrolledSubjects, List<String> targetSections, Timestamp? deployedAt, Timestamp? deadlineTs) {
+      List<dynamic> enrolledSubjects, Map<String, String> teacherToSection, Timestamp? deployedAt, Timestamp? deadlineTs) {
     if (pendingInstructors.isEmpty) {
       final now = DateTime.now();
       final months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -365,13 +371,7 @@ class _TeacherListScreenState extends State<TeacherListScreen> {
           ]),
         ),
         ...pendingInstructors.map((instructor) {
-          String specificSection = targetSections.first;
-          if (enrolledSubjects.isNotEmpty) {
-            try {
-              final match = enrolledSubjects.firstWhere((sub) => sub['code'] == instructor['subject']);
-              specificSection = match['section'];
-            } catch (_) {}
-          }
+          String specificSection = teacherToSection[instructor.id] ?? 'N/A';
           return _buildInstructorCard(context, instructor, false, null, specificSection);
         }),
       ]);
@@ -380,7 +380,7 @@ class _TeacherListScreenState extends State<TeacherListScreen> {
 
   // ── history tab ─────────────────────────────────────────────────────────
   Widget _buildHistoryTab(BuildContext context, List<QueryDocumentSnapshot> completedInstructors,
-      List<QueryDocumentSnapshot> allEvals) {
+      List<QueryDocumentSnapshot> allEvals, Map<String, String> teacherToSection) {
     final now = DateTime.now();
     final List<QueryDocumentSnapshot> recent = [];
     final Map<String, Map<String, dynamic>> recentEvalData = {};
@@ -418,7 +418,7 @@ class _TeacherListScreenState extends State<TeacherListScreen> {
           ]),
         ),
         ...recent.map((instructor) =>
-            _buildInstructorCard(context, instructor, true, recentEvalData[instructor.id]!, 'N/A')),
+            _buildInstructorCard(context, instructor, true, recentEvalData[instructor.id]!, teacherToSection[instructor.id] ?? 'N/A')),
       ]);
     });
   }

@@ -155,6 +155,123 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _showAboutDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) => TweenAnimationBuilder<double>(
+        duration: const Duration(milliseconds: 400),
+        tween: Tween(begin: 0.0, end: 1.0),
+        curve: Curves.easeOutBack,
+        builder: (context, value, child) {
+          return Transform.scale(
+            scale: 0.8 + (0.2 * value),
+            child: Opacity(
+              opacity: value.clamp(0.0, 1.0),
+              child: AlertDialog(
+                backgroundColor: GrcColors.surface,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                title: Row(
+                  children: [
+                    TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 800),
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      builder: (context, val, _) => Transform.rotate(
+                        angle: (1 - val) * 0.5,
+                        child: const Icon(Icons.info_outline, color: GrcColors.maroon),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    const Text("About Maya Evaluation Pro", style: TextStyle(color: GrcColors.maroon, fontWeight: FontWeight.bold, fontSize: 18)),
+                  ],
+                ),
+                content: SizedBox(
+                  width: 400,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Welcome to Maya Evaluation Pro!",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: GrcColors.textDark),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        "This is the official app for students to evaluate their teachers at Global Reciprocal Colleges (GRC). "
+                        "We made this app to help improve your classes by listening to your honest feedback.",
+                        style: TextStyle(color: GrcColors.textLight, fontSize: 13, height: 1.5),
+                      ),
+                      const SizedBox(height: 24),
+                      _buildAnimatedFeature(0, Icons.security, "Your Secret is Safe", "Your name is hidden. No one will ever know it was you who submitted the feedback."),
+                      const SizedBox(height: 16),
+                      _buildAnimatedFeature(1, Icons.analytics, "Smart AI", "The app uses AI to quickly read comments and tell the Deans what students need the most."),
+                      const SizedBox(height: 16),
+                      _buildAnimatedFeature(2, Icons.speed, "Fast Results", "School leaders see the scores instantly so they can make fast decisions to help you."),
+                      const SizedBox(height: 16),
+                      _buildAnimatedFeature(3, Icons.school, "Better Education", "By sharing your thoughts, you help GRC give everyone a much better learning experience."),
+                      const SizedBox(height: 24),
+                      const Center(
+                        child: Text(
+                          "Version 1.0.0 • Developed for GRC",
+                          style: TextStyle(color: GrcColors.textLight, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: const Text("CLOSE", style: TextStyle(color: GrcColors.maroon, fontWeight: FontWeight.bold)),
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildAnimatedFeature(int index, IconData icon, String title, String desc) {
+    return TweenAnimationBuilder<double>(
+      duration: Duration(milliseconds: 400 + (index * 150)),
+      tween: Tween(begin: 0.0, end: 1.0),
+      curve: Curves.easeOut,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(0, 20 * (1 - value)),
+          child: Opacity(
+            opacity: value,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: GrcColors.gold.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, size: 18, color: GrcColors.gold),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: GrcColors.textDark)),
+                      const SizedBox(height: 4),
+                      Text(desc, style: const TextStyle(fontSize: 12, color: GrcColors.textLight, height: 1.4)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     bool canRegister = selectedRole == 'DEAN' || selectedRole == 'PROGRAM HEAD';
@@ -163,7 +280,50 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       backgroundColor: GrcColors.background,
-      body: isNarrow ? _buildMobileLayout(canRegister) : _buildDesktopLayout(canRegister),
+      body: Stack(
+        children: [
+          isNarrow ? _buildMobileLayout(canRegister) : _buildDesktopLayout(canRegister),
+          Positioned(
+            top: 24,
+            right: 24,
+            child: TweenAnimationBuilder<double>(
+              duration: const Duration(seconds: 2),
+              tween: Tween(begin: 0.0, end: 1.0),
+              curve: Curves.easeInOutSine,
+              builder: (context, value, child) {
+                // Subtle pulse animation
+                double scale = 1.0 + (0.1 * (value > 0.5 ? 1 - value : value) * 2);
+                return Transform.scale(
+                  scale: scale,
+                  child: child,
+                );
+              },
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(50),
+                  onTap: _showAboutDialog,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: isNarrow ? Colors.white.withOpacity(0.15) : GrcColors.maroon.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: (isNarrow ? Colors.white : GrcColors.maroon).withOpacity(0.1),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        )
+                      ],
+                    ),
+                    child: Icon(Icons.info_outline, size: 22, color: isNarrow ? Colors.white : GrcColors.maroon),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

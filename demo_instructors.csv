@@ -1,0 +1,16 @@
+InstructorID,FullName,SubjectCode,SubjectTitle,Department,Room
+INST-001,Prof. Albert Einstein,IT101,Introduction to IT,College of Computer Studies,Room 301
+INST-001,Prof. Albert Einstein,IT102,Computer Programming 1,College of Computer Studies,Room 302
+INST-001,Prof. Albert Einstein,IT103,Discrete Mathematics,College of Computer Studies,Room 303
+INST-002,Dr. Marie Curie,IT104,Human Computer Interaction,College of Computer Studies,Room 304
+INST-002,Dr. Marie Curie,IT105,Networking 1,College of Computer Studies,Room 305
+INST-002,Dr. Marie Curie,IT106,Database Management,College of Computer Studies,Room 306
+INST-003,Sir Isaac Newton,CS201,Data Structures,College of Computer Studies,Room 401
+INST-003,Sir Isaac Newton,CS202,Algorithms,College of Computer Studies,Room 402
+INST-003,Sir Isaac Newton,CS203,Operating Systems,College of Computer Studies,Room 403
+INST-004,Ada Lovelace,CS301,Software Engineering,College of Computer Studies,Room 501
+INST-004,Ada Lovelace,CS302,Mobile Development,College of Computer Studies,Room 502
+INST-004,Ada Lovelace,CS303,Web Technologies,College of Computer Studies,Room 503
+INST-005,Nikola Tesla,EE101,Circuit Analysis,College of Engineering,Room 601
+INST-005,Nikola Tesla,EE102,Electromagnetics,College of Engineering,Room 602
+INST-005,Nikola Tesla,EE103,Power Systems,College of Engineering,Room 603

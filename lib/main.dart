@@ -5,10 +5,18 @@ import 'firebase_options.dart';
 import 'theme/grc_theme.dart';
 import 'screens/login_screen.dart';
 
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const TeacherEvalApp());
+  
+  // Enforce a 1.5-second minimum display time for the splash screen
+  await Future.delayed(const Duration(milliseconds: 1500));
+  FlutterNativeSplash.remove();
 }
 
 class TeacherEvalApp extends StatelessWidget {

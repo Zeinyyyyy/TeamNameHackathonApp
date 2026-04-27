@@ -44,13 +44,35 @@ class _DataImportTabState extends State<DataImportTab> {
       setState(() => _statusMessage = "Processing: Decoding file...");
 
       final bytes = result.files.single.bytes!;
-      final csvString = utf8.decode(bytes);
+      final csvString = utf8.decode(bytes).trim();
+      
+      // Robust Parsing: Try common EOL characters if default fails
+      List<List<dynamic>> csvTable;
+      try {
+        csvTable = const CsvToListConverter().convert(csvString);
+      } catch (e) {
+        throw "Failed to parse CSV: ${e.toString()}";
+      }
 
-      List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvString);
+      if (csvTable.isEmpty) {
+        throw "The selected file is completely empty.";
+      }
+      
+      if (csvTable.length <= 1) {
+         // Fallback: If only one row detected, it might be a line ending issue
+         // Let's try splitting manually to see if we can detect rows
+         if (csvString.contains('\n')) {
+            csvTable = const CsvToListConverter(eol: '\n').convert(csvString);
+         } else if (csvString.contains('\r')) {
+            csvTable = const CsvToListConverter(eol: '\r').convert(csvString);
+         }
+      }
 
-      if (csvTable.length <= 1) throw "Error: The file appears to be empty or missing data rows.";
+      if (csvTable.length <= 1) {
+        throw "Missing data rows. Detected only ${csvTable.length} row(s). Ensure your file has a header and data rows.";
+      }
 
-      setState(() => _statusMessage = "Processing: Compiling student portfolios...");
+      setState(() => _statusMessage = "Processing: Compiling ${csvTable.length - 1} data rows...");
 
       Map<String, Map<String, dynamic>> compiledStudents = {};
 
@@ -72,6 +94,8 @@ class _DataImportTabState extends State<DataImportTab> {
               'name': name,
               'role': 'STUDENT',
               'status': 'APPROVED',
+              'section': section, // 🟢 Save section at top level
+              'department': section.split(' ').first, // 🟢 Infer department (e.g., BSIT)
               'enrolled_subjects': [],
               'createdAt': FieldValue.serverTimestamp(),
             };

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import '../../../theme/grc_theme.dart';
 
 class AssignSectionTab extends StatefulWidget {
@@ -134,6 +135,71 @@ class _AssignSectionTabState extends State<AssignSectionTab> {
     setState(() => _aiLoading = false);
   }
 
+  Future<void> _manualDeployWithDocs() async {
+    if (_sec == null) {
+       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please select a section first."), backgroundColor: Colors.red));
+       return;
+    }
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'docx', 'txt'],
+    );
+
+    if (result != null) {
+      setState(() => _aiLoading = true);
+      String fileName = result.files.first.name;
+
+      // Simulate AI Analysis of the document
+      await Future.delayed(const Duration(seconds: 3));
+
+      try {
+        final batch = FirebaseFirestore.instance.batch();
+        final critRef = FirebaseFirestore.instance.collection('section_assignments').doc(_sec!).collection('criteria');
+        final oldCrit = await critRef.get();
+        for (var doc in oldCrit.docs) { batch.delete(doc.reference); }
+
+        // --- Simulated AI-Generated Criteria from Document ---
+        List<Map<String, String>> docCriteria = [
+          {'section': 'Document-Based', 'text': 'Instructor follows the specialized guidelines outlined in $fileName.'},
+          {'section': 'Document-Based', 'text': 'Practical applications align with the requirements of the uploaded manual.'},
+          {'section': 'Document-Based', 'text': 'Classroom activities match the pedagogical goals of the $fileName document.'},
+          {'section': 'Teaching Effectiveness', 'text': 'Explains lessons in a clear and understandable manner.'},
+          {'section': 'Teaching Effectiveness', 'text': 'Demonstrates mastery of the subject matter.'},
+          {'section': 'Class Management', 'text': 'Maintains discipline and order inside the classroom.'},
+          {'section': 'Professionalism', 'text': 'Is approachable and accommodating to student concerns.'},
+        ];
+
+        for (int i = 0; i < docCriteria.length; i++) {
+          final docRef = critRef.doc('q${(i + 1).toString().padLeft(2, '0')}');
+          batch.set(docRef, {'index': i + 1, 'section': docCriteria[i]['section'], 'text': docCriteria[i]['text']});
+        }
+
+        batch.set(FirebaseFirestore.instance.collection('section_assignments').doc(_sec!),
+            {
+              'status': 'AI_ACTIVE',
+              'section': _sec,
+              'criteriaCount': docCriteria.length,
+              'deployedAt': FieldValue.serverTimestamp(),
+              'deadline': _selectedDeadline ?? DateTime.now().add(const Duration(days: 7)),
+              'sourceFile': fileName,
+            },
+            SetOptions(merge: true));
+
+        await batch.commit();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("AI Analysis complete! Evaluation deployed using $fileName."),
+            backgroundColor: Colors.green,
+          ));
+        }
+      } catch (e) {
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e"), backgroundColor: Colors.red));
+      }
+      setState(() => _aiLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String prefix = collegeToCode[_selectedCourse] ?? "SELECT";
@@ -222,15 +288,32 @@ class _AssignSectionTabState extends State<AssignSectionTab> {
                   ),
                 );
 
-                Widget aiButton = SizedBox(
-                  height: 50,
-                  width: isDesktop ? null : double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: _aiLoading ? null : _activateAiDeploy,
-                    icon: _aiLoading ? const SizedBox(width: 15, height: 15, child: CircularProgressIndicator(strokeWidth: 2, color: GrcColors.maroon)) : const Icon(Icons.auto_awesome),
-                    label: Text(_aiLoading ? "AI GENERATING CRITERIA..." : "ACTIVATE AI EVALUATION", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                    style: OutlinedButton.styleFrom(foregroundColor: GrcColors.maroon, side: const BorderSide(color: GrcColors.maroon, width: 2), backgroundColor: GrcColors.surface),
-                  ),
+                Widget aiButton = Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 50,
+                        child: OutlinedButton.icon(
+                          onPressed: _aiLoading ? null : _activateAiDeploy,
+                          icon: _aiLoading ? const SizedBox(width: 15, height: 15, child: CircularProgressIndicator(strokeWidth: 2, color: GrcColors.maroon)) : const Icon(Icons.auto_awesome),
+                          label: Text(_aiLoading ? "GENERATING..." : "AI DEPLOY", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                          style: OutlinedButton.styleFrom(foregroundColor: GrcColors.maroon, side: const BorderSide(color: GrcColors.maroon, width: 2), backgroundColor: GrcColors.surface),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: SizedBox(
+                        height: 50,
+                        child: OutlinedButton.icon(
+                          onPressed: _aiLoading ? null : _manualDeployWithDocs,
+                          icon: const Icon(Icons.upload_file),
+                          label: Text(_aiLoading ? "ANALYZING..." : "DOCS DEPLOY", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                          style: OutlinedButton.styleFrom(foregroundColor: Colors.blue[800], side: BorderSide(color: Colors.blue[800]!, width: 2), backgroundColor: GrcColors.surface),
+                        ),
+                      ),
+                    ),
+                  ],
                 );
 
                 if (isDesktop) {

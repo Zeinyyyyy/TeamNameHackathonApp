@@ -179,9 +179,11 @@ class _UserManagementTabState extends State<UserManagementTab> {
                         if (editRole == 'Student') ...[
                           const SizedBox(height: 16),
                           DropdownButtonFormField<String>(
-                            value: _sections.contains(editSectionCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')) 
-                                ? editSectionCtrl.text.replaceAll(RegExp(r'[^0-9]'), '') 
-                                : '101',
+                            value: _sections.contains(editSectionCtrl.text.trim()) 
+                                ? editSectionCtrl.text.trim() 
+                                : (_sections.any((s) => s.contains(editSectionCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')))
+                                    ? _sections.firstWhere((s) => s.contains(editSectionCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')))
+                                    : _sections.first),
                             decoration: const InputDecoration(labelText: "Section Number", border: OutlineInputBorder()),
                             items: _sections.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
                             onChanged: (v) => setDialogState(() => editSectionCtrl.text = v!),

@@ -64,6 +64,15 @@ class _InstructorListTabState extends State<InstructorListTab> {
 
   // --- REUSABLE NAVIGATION FUNCTION ---
   void _navigateToAI(BuildContext context, Map<String, dynamic> data) {
+    if ((data['evalCount'] ?? 0) == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("No evaluation data available for this instructor yet."),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -71,6 +80,7 @@ class _InstructorListTabState extends State<InstructorListTab> {
           teacherId: data['id'],
           teacherName: data['name'],
           subjectDept: "${data['subject']} • ${data['department']}",
+          evalCount: data['evalCount'] ?? 0,
         ),
       ),
     );
@@ -139,6 +149,8 @@ class _InstructorListTabState extends State<InstructorListTab> {
 
                           List<Map<String, dynamic>> instructorDataList = [];
 
+                          Map<String, Map<String, dynamic>> groupedInstructors = {};
+                          
                           for (var teacherDoc in teacherSnap.data!.docs) {
                             var tData = teacherDoc.data() as Map<String, dynamic>;
                             String tName = (tData['name'] ?? 'Unknown').toString();
@@ -155,14 +167,30 @@ class _InstructorListTabState extends State<InstructorListTab> {
                               return eData['teacherId'] == teacherDoc.id;
                             }).toList();
 
-                            instructorDataList.add({
-                              'id': teacherDoc.id,
-                              'name': tName,
-                              'department': tDept.isEmpty ? 'No Department' : tDept,
-                              'subject': tSubj,
-                              'evalCount': teacherEvals.length,
-                            });
+                            String key = tName.toUpperCase();
+                            if (!groupedInstructors.containsKey(key)) {
+                              groupedInstructors[key] = {
+                                'id': teacherDoc.id,
+                                'name': tName,
+                                'department': tDept.isEmpty ? 'No Department' : tDept,
+                                'subjects': <String>{},
+                                'evalCount': 0,
+                              };
+                            }
+                            
+                            groupedInstructors[key]!['subjects'].add(tSubj);
+                            groupedInstructors[key]!['evalCount'] += teacherEvals.length;
                           }
+
+                          instructorDataList = groupedInstructors.values.map((v) {
+                            return {
+                              'id': v['id'],
+                              'name': v['name'],
+                              'department': v['department'],
+                              'subject': (v['subjects'] as Set<String>).join(', '),
+                              'evalCount': v['evalCount'],
+                            };
+                          }).toList();
 
                           instructorDataList.sort((a, b) => a['name'].toString().compareTo(b['name'].toString()));
 
@@ -214,12 +242,12 @@ class _InstructorListTabState extends State<InstructorListTab> {
                                         );
 
                                         Widget button = OutlinedButton.icon(
-                                          onPressed: () => _navigateToAI(context, data),
+                                          onPressed: evalCount == 0 ? null : () => _navigateToAI(context, data),
                                           icon: const Icon(Icons.auto_awesome, size: 16),
                                           label: const Text("VIEW INSIGHTS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 0.5)),
                                           style: OutlinedButton.styleFrom(
-                                              foregroundColor: GrcColors.maroon,
-                                              side: const BorderSide(color: GrcColors.maroon),
+                                              foregroundColor: evalCount == 0 ? Colors.grey : GrcColors.maroon,
+                                              side: BorderSide(color: evalCount == 0 ? Colors.grey : GrcColors.maroon),
                                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
                                           ),

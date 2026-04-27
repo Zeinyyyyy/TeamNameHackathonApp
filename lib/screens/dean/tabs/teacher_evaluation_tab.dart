@@ -268,9 +268,13 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
                           List<Map<String, dynamic>> instructorStats = [];
                           int exc = 0, good = 0, avg = 0, poor = 0, unrated = 0;
 
+                          Map<String, Map<String, dynamic>> groupedStats = {};
+
                           for (var teacherDoc in teacherSnap.data!.docs) {
                             var tData = teacherDoc.data() as Map<String, dynamic>;
+                            String tName = (tData['name'] ?? 'Unknown').toString().toUpperCase();
                             String tDept = (tData['department'] ?? '').toString();
+                            
                             if (_selectedFilterDept != 'ALL' && tDept != _chipToDbName[_selectedFilterDept]) continue;
 
                             var teacherEvals = evalSnap.data!.docs.where((e) {
@@ -282,6 +286,23 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
 
                               return matchesTeacher && matchesSemester;
                             }).toList();
+
+                            if (!groupedStats.containsKey(tName)) {
+                              groupedStats[tName] = {
+                                'name': tData['name'] ?? 'Unknown',
+                                'department': tDept.isEmpty ? 'No Department' : tDept,
+                                'subjects': <String>{},
+                                'allEvals': <QueryDocumentSnapshot>[],
+                              };
+                            }
+                            
+                            groupedStats[tName]!['subjects'].add(tData['subject'] ?? '');
+                            groupedStats[tName]!['allEvals'].addAll(teacherEvals);
+                          }
+
+                          for (var name in groupedStats.keys) {
+                            var entry = groupedStats[name]!;
+                            List<QueryDocumentSnapshot> teacherEvals = entry['allEvals'];
 
                             double studentTotal = 0, phTotal = 0, deanTotal = 0;
                             int studentCount = 0, phCount = 0, deanCount = 0;
@@ -308,7 +329,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
                             if (deanCount > 0) { finalAverage += deanAvg * 0.20; totalWeight += 0.20; }
 
                             if (totalWeight > 0) {
-                              finalAverage = finalAverage / totalWeight; // Normalize to available weights
+                              finalAverage = finalAverage / totalWeight;
                             }
 
                             if (finalAverage == 0) unrated++;
@@ -318,9 +339,9 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
                             else poor++;
 
                             instructorStats.add({
-                              'name': tData['name'] ?? 'Unknown',
-                              'department': tDept.isEmpty ? 'No Department' : tDept,
-                              'subject': tData['subject'] ?? '',
+                              'name': entry['name'],
+                              'department': entry['department'],
+                              'subject': (entry['subjects'] as Set<String>).join(', '),
                               'score': finalAverage,
                               'evalCount': teacherEvals.length,
                               'evals': teacherEvals,

@@ -443,13 +443,18 @@ class _EvaluationStatisticsState extends State<EvaluationStatistics> {
                           
                           bool isStudent = role == 'STUDENT';
                           
+                          // Helper to normalize strings for comparison (remove spaces/hyphens)
+                          String normalize(String s) => s.replaceAll(RegExp(r'[\s-]'), '').toUpperCase();
+                          
+                          String normalizedSelected = normalize(_selectedSection ?? '');
+                          
                           // Match by main section
-                          bool mainMatch = sSec.isNotEmpty && (_selectedSection == sSec || _selectedSection!.endsWith(sSec));
+                          bool mainMatch = sSec.isNotEmpty && normalize(sSec).contains(normalizedSelected.replaceAll(RegExp(r'[^0-9]'), ''));
                           
                           // Match by enrolled subjects section
                           bool subjectMatch = subjects.any((s) {
                             String subSec = (s['section'] ?? '').toString();
-                            return subSec.isNotEmpty && (_selectedSection == subSec || _selectedSection!.endsWith(subSec));
+                            return subSec.isNotEmpty && normalize(subSec).contains(normalizedSelected.replaceAll(RegExp(r'[^0-9]'), ''));
                           });
                           
                           return isStudent && (mainMatch || subjectMatch);
